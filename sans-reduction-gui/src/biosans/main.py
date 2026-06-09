@@ -28,4 +28,5 @@ def main(**kwargs: Any) -> None:
 
 
 if __name__ == "__main__":
-    main(port=8080, host="0.0.0.0", open_browser=False)
+    port = int(os.environ.get("SANS_GUI_PORT", 17683))
+    main(port=port, host="0.0.0.0", open_browser=False)
