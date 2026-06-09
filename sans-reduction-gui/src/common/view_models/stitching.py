@@ -25,7 +25,7 @@ class StitchingViewModel:
         self.model = model
         self.export_error = ""
         self.exporting = False
-        self.figures: List[Any] = []
+        self.figures: List[Any] = [None] * model.get_max_ranges()
         self.needs_export = False
         self.stitching_error: Union[bool, str] = ""
 
@@ -58,7 +58,7 @@ class StitchingViewModel:
         self.log_axes_bind.update_in_view(log_axes)
         self.plots_1D_bind.update_in_view(plots)
         for index, _ in enumerate(plots[:-1]):
-            if index >= len(self.figures) - 1:
+            if index >= len(self.figures) - 1 or self.figures[index] is None:
                 continue
             self.figures[index].update(
                 self.render_1d_plot(
@@ -76,7 +76,10 @@ class StitchingViewModel:
         self.prepare_charts_bind.update_in_view(None)
 
     def add_figure(self, figure: Any) -> None:
-        self.figures.append(figure)
+        try:
+            self.figures[self.figures.index(None)] = figure
+        except ValueError:
+            self.figures.append(figure)
 
     def add_stitching_profile(self) -> None:
         self.model.add_stitching_profile()

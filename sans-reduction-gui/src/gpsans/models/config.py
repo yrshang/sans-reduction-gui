@@ -459,8 +459,10 @@ class GPSANSConfig(BaseModel):
                     setattr(self.q_range_clean_curves[index], key, q_range_clean_curves[key])
 
             for key in config_dict:
-                if key not in ["ranges", "stitching", "q_range_clean_curves"]:
+                if key not in ["ranges", "stitching", "q_range_clean_curves", "common_configuration"]:
                     setattr(self, key, config_dict[key])
+            if "common_configuration" in config_dict:
+                self.common_configuration = config_dict["common_configuration"]
         except ValueError:
             config_dict = self.load_old_config(config_data)
 

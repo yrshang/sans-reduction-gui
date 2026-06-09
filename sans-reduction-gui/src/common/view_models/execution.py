@@ -217,6 +217,7 @@ class ExecutionViewModel:
         except Exception as err:
             self.set_error(str(err))
         self.config_vm.gui_config_updated()
+        self.config_vm.update_view()
 
         self.config_vm.update_oncat()
 
