@@ -412,7 +412,8 @@ class GPSANSConfig(BaseModel):
         self.see_full_verbose = config_dict.get("see_full_verbose", False)
         self.use_log_2d_binning = config_dict.get("use_log_2d_binning", True)
 
-        self.common_configuration = config_dict["common_configuration"]
+        if "common_configuration" in config_dict:
+            self.common_configuration = config_dict["common_configuration"]
 
         q_range_num = config_dict.get("config_num", self.MAX_RANGES_NUM)
 

@@ -307,7 +307,8 @@ class BioSANSConfig(BaseModel):
         self.q_range_wing = config_dict.get("q_range_wing", [0.0, 1.0])
         self.refresh_cycle = config_dict.get("refreshCycle", 25)
 
-        self.common_configuration = config_dict["common_configuration"]
+        if "common_configuration" in config_dict:
+            self.common_configuration = config_dict["common_configuration"]
 
         return config_dict
 
@@ -323,7 +324,8 @@ class BioSANSConfig(BaseModel):
         except ValueError:
             config_dict = self.load_old_config(config_data)
 
-        self.wavelength = self.common_configuration["configuration"]["wavelength"]
+        self.wavelength = self.common_configuration.get(
+            "configuration", {}).get("wavelength", self.wavelength)
 
         self.update_configuration(options_only=True)
 
