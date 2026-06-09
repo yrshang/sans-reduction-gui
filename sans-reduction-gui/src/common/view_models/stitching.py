@@ -25,7 +25,7 @@ class StitchingViewModel:
         self.model = model
         self.export_error = ""
         self.exporting = False
-        self.figures: List[Any] = [None] * model.get_max_ranges()
+        self.figures: List[Any] = [None] * model.config.MAX_RANGES_NUM
         self.needs_export = False
         self.stitching_error: Union[bool, str] = ""
 

@@ -316,7 +316,10 @@ class BioSANSConfig(BaseModel):
             config_dict = json.loads(config_data)
 
             for key in config_dict:
-                setattr(self, key, config_dict[key])
+                if key != "common_configuration":
+                    setattr(self, key, config_dict[key])
+            if "common_configuration" in config_dict:
+                self.common_configuration = config_dict["common_configuration"]
         except ValueError:
             config_dict = self.load_old_config(config_data)
 

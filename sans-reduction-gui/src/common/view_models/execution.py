@@ -216,6 +216,8 @@ class ExecutionViewModel:
             self.model.load_config(data)
         except Exception as err:
             self.set_error(str(err))
+            return
+        self.clear_error()
         self.config_vm.gui_config_updated()
         self.config_vm.update_view()
 
