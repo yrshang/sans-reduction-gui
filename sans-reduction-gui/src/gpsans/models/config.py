@@ -444,28 +444,38 @@ class GPSANSConfig(BaseModel):
         try:
             config_dict = json.loads(config_data)
 
+            prev_ranges = self.ranges
+            prev_stitching = self.stitching
+            prev_q_range_clean_curves = self.q_range_clean_curves
+
             self.ranges = []
             self.stitching = []
             self.q_range_clean_curves = []
-            for index, range in enumerate(config_dict["ranges"]):
-                self.add_range()
+            try:
+                for index, range in enumerate(config_dict["ranges"]):
+                    self.add_range()
 
-                for key in range:
-                    setattr(self.ranges[index], key, range[key])
+                    for key in range:
+                        setattr(self.ranges[index], key, range[key])
 
-            for index, stitching_range in enumerate(config_dict["stitching"]):
-                for key in stitching_range:
-                    setattr(self.stitching[index], key, stitching_range[key])
+                for index, stitching_range in enumerate(config_dict["stitching"]):
+                    for key in stitching_range:
+                        setattr(self.stitching[index], key, stitching_range[key])
 
-            for index, q_range_clean_curves in enumerate(config_dict["q_range_clean_curves"]):
-                for key in q_range_clean_curves:
-                    setattr(self.q_range_clean_curves[index], key, q_range_clean_curves[key])
+                for index, q_range_clean_curves in enumerate(config_dict["q_range_clean_curves"]):
+                    for key in q_range_clean_curves:
+                        setattr(self.q_range_clean_curves[index], key, q_range_clean_curves[key])
 
-            for key in config_dict:
-                if key not in ["ranges", "stitching", "q_range_clean_curves", "common_configuration"]:
-                    setattr(self, key, config_dict[key])
-            if "common_configuration" in config_dict:
-                self.common_configuration = config_dict["common_configuration"]
+                for key in config_dict:
+                    if key not in ["ranges", "stitching", "q_range_clean_curves", "common_configuration"]:
+                        setattr(self, key, config_dict[key])
+                if "common_configuration" in config_dict:
+                    self.common_configuration = config_dict["common_configuration"]
+            except Exception:
+                self.ranges = prev_ranges
+                self.stitching = prev_stitching
+                self.q_range_clean_curves = prev_q_range_clean_curves
+                raise
         except ValueError:
             config_dict = self.load_old_config(config_data)
 
@@ -629,5 +639,6 @@ class SharedConfig:
     def __new__(cls: Any, *args: Any, **kwargs: Any) -> Any:
         if cls._instance is None:
             cls._instance = GPSANSConfig()
-            cls._instance.add_range()
+            for _ in range(cls._instance.MAX_RANGES_NUM):
+                cls._instance.add_range()
         return cls._instance
