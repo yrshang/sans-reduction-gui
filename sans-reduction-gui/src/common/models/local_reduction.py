@@ -102,7 +102,6 @@ class LocalReduction:
 
     def get_job_results(self, config: Any):
         output_folder = getattr(config, "output_folder", "")
-        logging.warning(f"Scanning output_folder: {output_folder}")
         output_path = Path(output_folder) if output_folder else None
         if not output_path or not output_path.is_dir():
             return [[], [], []]

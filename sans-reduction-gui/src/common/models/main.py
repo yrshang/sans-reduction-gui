@@ -24,6 +24,8 @@ class MainModel(DictObject):
         self._oncat: Any = SharedONCat(facility=self.config.facility, instrument=self.config.instrument)
         self._stitching: Any = SharedStitching()
         self._datasets_cache: Dict[Any, Any] = {}
+        self._last_scanned_folder = ""
+        self._cached_results: List[Any] = [[], [], []]
 
     def load_config(self, config_data: Any) -> None:
         self.config.load_config(config_data)
@@ -47,7 +49,14 @@ class MainModel(DictObject):
         return self._job
 
     def get_job_results(self) -> Any:
-        return self._galaxy.get_job_results(self.config)
+        current_folder = getattr(self.config, "output_folder", "")
+        if current_folder != self._last_scanned_folder:
+            self._last_scanned_folder = current_folder
+            self._cached_results = self._galaxy.get_job_results(self.config)
+        return self._cached_results
+
+    def invalidate_results_cache(self) -> None:
+        self._last_scanned_folder = ""
 
     def get_preview(self, run: dict[str, Any]) -> dict[str, Any]:
         return self._oncat.get_preview(run)
@@ -113,6 +122,7 @@ class MainModel(DictObject):
         try:
             self._galaxy.run_reduction(self.config, self._job)
             self._job.state = job_states.FINISHED_OK if self._job.state != job_states.CANCELING else job_states.CANCELED
+            self.invalidate_results_cache()
         except Exception as e:
             if self._job.state == job_states.CANCELING:
                 self._job.state = job_states.CANCELED
