@@ -445,6 +445,8 @@ class GPSANSConfig(BaseModel):
             config_dict = json.loads(config_data)
 
             self.ranges = []
+            self.stitching = []
+            self.q_range_clean_curves = []
             for index, range in enumerate(config_dict["ranges"]):
                 self.add_range()
 
