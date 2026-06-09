@@ -1,0 +1,7 @@
+.pixi/
+pixi.lock
+*.DS_Store
+.env
+__pycache__/
+*.pyc
+gpsans_gui_config.json

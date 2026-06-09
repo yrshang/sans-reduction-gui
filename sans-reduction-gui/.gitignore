@@ -1,0 +1,19 @@
+# Environment / secrets
+.env
+.env.*
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Pixi
+.pixi/
+# pixi.lock is intentionally excluded; commit it to pin the solve
+pixi.lock
+
+# Editors
+.vscode/
+
+# ONCat authentication token is stored at ~/.oncat_token.json (outside this repo).
+# See README for first-time authentication instructions.

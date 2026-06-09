@@ -1,0 +1,29 @@
+[workspace]
+name = "sans-gui"
+channels = ["conda-forge"]
+platforms = ["linux-64"]
+version = "0.1.0"
+
+[dependencies]
+python = "3.12.*"
+python-dotenv = "*"
+pydantic = ">=2.0"
+pandas = "*"
+
+[pypi-dependencies]
+trame = "*"
+nova-trame = "<1.4.0"
+nova-mvvm = "<0.15.0"
+nova-common = "*"
+
+[pypi-options]
+index-url = "https://pypi.org/simple"
+extra-index-urls = ["https://repoman.ornl.gov/pypi/web/simple"]
+
+[pypi-dependencies.pyoncat]
+version = "==2.5"
+index = "https://pypi.org/simple"
+
+[tasks]
+gpsans = {cmd = "PYTHONPATH=/SNS/users/rys/workspace/sans-gui/sans-reduction-gui-standalone/src python /SNS/users/rys/workspace/sans-gui/sans-reduction-gui-standalone/src/gpsans/main.py"}
+biosans = {cmd = "PYTHONPATH=/SNS/users/rys/workspace/sans-gui/sans-reduction-gui-standalone/src python /SNS/users/rys/workspace/sans-gui/sans-reduction-gui-standalone/src/biosans/main.py"}
