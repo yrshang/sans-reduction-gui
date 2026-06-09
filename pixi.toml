@@ -25,5 +25,5 @@ version = "==2.5"
 index = "https://pypi.org/simple"
 
 [tasks]
-gpsans = {cmd = "PYTHONPATH=/SNS/users/rys/workspace/sans-gui/sans-reduction-gui-standalone/src python /SNS/users/rys/workspace/sans-gui/sans-reduction-gui-standalone/src/gpsans/main.py"}
-biosans = {cmd = "PYTHONPATH=/SNS/users/rys/workspace/sans-gui/sans-reduction-gui-standalone/src python /SNS/users/rys/workspace/sans-gui/sans-reduction-gui-standalone/src/biosans/main.py"}
+gpsans = {cmd = "PYTHONPATH=sans-reduction-gui/src python sans-reduction-gui/src/gpsans/main.py"}
+biosans = {cmd = "PYTHONPATH=sans-reduction-gui/src python sans-reduction-gui/src/biosans/main.py"}
